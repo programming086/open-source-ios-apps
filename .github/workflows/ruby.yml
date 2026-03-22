@@ -1,0 +1,25 @@
+name: Ruby
+
+on:
+  push:
+    branches: [ '*' ]
+  pull_request:
+    branches: [ '*' ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v6
+    - name: Set up Ruby 2.6
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '2.6'
+    - name: Checks
+      run: |
+        ruby .github/osia_convert.rb
+        gem install awesome_bot
+        ruby .github/osia_get_links.rb
+        awesome_bot check-unique.txt --allow-ssl -a 302,429,502 -w shadowfacts,c0051d18eb21,636db0400a1d,263bb0f74818,b04e7e7b9917,86f88feaf81a,cdn-images-1
